@@ -21,7 +21,7 @@ public class XDGAndroidPaymentProcessor : IPostGenerateGradleAndroidProject{
 #else
         var unityLibraryGradle = projectPath + "/build.gradle";
 #endif
-
+        // TODO@luran:
         //implementation 可根据需要添加或删除
         if (File.Exists(unityLibraryGradle))
         {
