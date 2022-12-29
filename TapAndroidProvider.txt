@@ -9,7 +9,7 @@
       "processType": 1,
       "locationParam": "DEPS",
       "processContent": [
-        "   implementation 'androidx.browser:browser:1.4.0'"
+        "    implementation 'androidx.browser:browser:1.4.0'"
       ]
     }
   ]
