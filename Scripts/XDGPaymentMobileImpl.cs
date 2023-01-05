@@ -5,21 +5,21 @@ using UnityEngine;
 using XD.SDK.Common;
 
 namespace XD.SDK.Payment{
-    public class XDGPaymentImpl{
+    public class XDGPaymentMobileImpl{
         private readonly string XDG_PAYMENT_SERVICE = "XDGPaymentService"; //注意要和iOS本地桥接类名一样
 
-        private XDGPaymentImpl(){
+        private XDGPaymentMobileImpl(){
             EngineBridge.GetInstance()
                 .Register(XDGUnityBridge.PAYMENT_SERVICE_NAME, XDGUnityBridge.PAYMENT_SERVICE_IMPL);
         }
 
-        private static volatile XDGPaymentImpl _instance;
+        private static volatile XDGPaymentMobileImpl _instance;
         private static readonly object Locker = new object();
 
-        public static XDGPaymentImpl GetInstance(){
+        public static XDGPaymentMobileImpl GetInstance(){
             lock (Locker){
                 if (_instance == null){
-                    _instance = new XDGPaymentImpl();
+                    _instance = new XDGPaymentMobileImpl();
                 }
             }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TapTap.Common;
 using UnityEngine;
 using XD.SDK.Common;
+using XD.SDK.Common.Internal;
+using XD.SDK.Payment.Internal;
 
 namespace XD.SDK.Payment
 {
@@ -321,21 +323,20 @@ namespace XD.SDK.Payment
         }
     }
 
-    public class XDGRefundResultWrapper
+    public class XDGRefundResultWrapper : IXDGRefundResultWrapper
     {
-        public XDGError xdgError;
-        public List<XDGRefundDetails> refundList;
+        private XDGError _xdgError;
+        private List<XDGRefundDetails> _refundList;
 
         public XDGRefundResultWrapper(string jsonStr)
         {
-         
             var dic = Json.Deserialize(jsonStr) as Dictionary<string, object>;
             var code = SafeDictionary.GetValue<int>(dic, "code");
             var msg = SafeDictionary.GetValue<string>(dic, "msg");
             if (code != Result.RESULT_SUCCESS)
             {
                 XDGTool.LogError($"CheckRefundResult 失败 :{jsonStr}");
-                xdgError = new XDGError(code, msg);
+                _xdgError = new XDGError(code, msg);
             }
             else
             {
@@ -344,15 +345,18 @@ namespace XD.SDK.Payment
                 var list = SafeDictionary.GetValue<List<object>>(dataDic, "list");
                 if (list == null)return;
                 
-                refundList = new List<XDGRefundDetails>();
+                _refundList = new List<XDGRefundDetails>();
                 for (var index = 0; index < list.Count; index++)
                 {
                     var obj = list[index];
                     var beanDic = obj as Dictionary<string, object>;
-                    refundList.Add(new XDGRefundDetails(beanDic));
+                    _refundList.Add(new XDGRefundDetails(beanDic));
                 }
             }
         }
+
+        public IXDGError xdgError => _xdgError as IXDGError;
+        public List<IXDGRefundDetails> refundList => _refundList.ConvertAll<IXDGRefundDetails>(a => a as IXDGRefundDetails);
     }
 
     [Serializable]

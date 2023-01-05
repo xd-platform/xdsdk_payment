@@ -1,12 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using XD.SDK.Common;
+using XD.SDK.Payment.Internal;
 
 namespace XD.SDK.Payment{
     public class XDGPayment{
+        public static IXDGPayment platformWrapper;
+        
+        static XDGPayment() 
+        {
+            var interfaceType = typeof(IXDGPayment);
+            var platformInterfaceType = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .FirstOrDefault(clazz => interfaceType.IsAssignableFrom(clazz));
+            if (platformInterfaceType != null) {
+                platformWrapper = Activator.CreateInstance(platformInterfaceType) as IXDGPayment;
+            }
+        }
+        
         public static void PayWithProduct(string orderId, string productId, string roleId, string serverId, string ext,
             Action<XDGOrderInfoWrapper> callback){
-            XDGPaymentImpl.GetInstance().PayWithProduct(orderId, productId, roleId, serverId, ext, callback);
+            platformWrapper.PayWithProduct(orderId, productId, roleId, serverId, ext, callback);
         }
 
         public static void PayWithWeb(
@@ -18,29 +33,28 @@ namespace XD.SDK.Payment{
             string serverId,
             string extras,
             Action<WebPayResultType, string> callback){
-            XDGPaymentImpl.GetInstance().PayWithWeb(orderId, productId, productName, payAmount, roleId, serverId, extras, callback);
+            platformWrapper.PayWithWeb(orderId, productId, productName, payAmount, roleId, serverId, extras, callback);
         }
 
         public static void QueryWithProductIds(string[] productIds, Action<XDGSkuDetailInfo> callback){
-            XDGPaymentImpl.GetInstance().QueryWithProductIds(productIds, callback);
+            platformWrapper.QueryWithProductIds(productIds, callback);
         }
 
         public static void QueryRestoredPurchase(Action<List<XDGRestoredPurchase>> callback){
-            XDGPaymentImpl.GetInstance().QueryRestoredPurchase(callback);
+            platformWrapper.QueryRestoredPurchase(callback);
         }
 
         public static void RestorePurchase(string purchaseToken, string orderId, string productId, string roleId,
             string serverId, string ext, Action<XDGOrderInfoWrapper> callback){
-            XDGPaymentImpl.GetInstance()
-                .RestorePurchase(purchaseToken, orderId, productId, roleId, serverId, ext, callback);
+            platformWrapper.RestorePurchase(purchaseToken, orderId, productId, roleId, serverId, ext, callback);
         }
 
-        public static void CheckRefundStatus(Action<XDGRefundResultWrapper> callback){
-            XDGPaymentImpl.GetInstance().CheckRefundStatus(callback);
+        public static void CheckRefundStatus(Action<IXDGRefundResultWrapper> callback){
+            platformWrapper.CheckRefundStatus(callback);
         }
 
-        public static void CheckRefundStatusWithUI(Action<XDGRefundResultWrapper> callback){
-            XDGPaymentImpl.GetInstance().CheckRefundStatusWithUI(callback);
+        public static void CheckRefundStatusWithUI(Action<IXDGRefundResultWrapper> callback){
+            platformWrapper.CheckRefundStatusWithUI(callback);
         }
     }
 }
