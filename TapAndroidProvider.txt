@@ -1,4 +1,6 @@
 {
+  "Version": 1,
+  "Use": true,
   "Priority": 1,
   "ModuleName": "XD.Payment",
   "AndroidGradleContext": [
