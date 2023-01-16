@@ -30,7 +30,7 @@ typedef void(^XDGQueryRestoreProductsCallback)(NSArray<XDGTransactionInfo *> *re
 @param orderInfo info of the transaction
 @param error error, if any.
  */
-typedef void(^XDGPaymentCallback)(XDGOrderInfo *orderInfo,NSError *error);
+typedef void(^XDGPaymentCallback)(XDGOrderInfo *_Nullable orderInfo,NSError *_Nullable error);
 
 
 
