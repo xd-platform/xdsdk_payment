@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using XD.SDK.Common;
+using UnityEngine.Scripting;
 using XD.SDK.Payment.Internal;
 
+[assembly: Preserve]
 namespace XD.SDK.Payment{
     public class XDGPayment{
         public static IXDGPayment platformWrapper;
