@@ -20,7 +20,7 @@ namespace XD.SDK.Payment
             var errorDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "error");
             if (errorDic != null)
             {
-                xdgError = new XDGError(errorDic);
+                xdgError = new XDGErrorMobile(errorDic);
             }
 
             var list = SafeDictionary.GetValue<List<object>>(dic, "products");
@@ -290,7 +290,7 @@ namespace XD.SDK.Payment
             var errorDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "error");
             if (errorDic != null)
             {
-                xdgError = new XDGError(errorDic);
+                xdgError = new XDGErrorMobile(errorDic);
                 XDGTool.LogError($"产品支付失败： {jsonStr}");
             }
 
@@ -323,12 +323,12 @@ namespace XD.SDK.Payment
         }
     }
 
-    public class XDGRefundResultWrapper : IXDGRefundResultWrapper
+    public class XDGRefundResultWrapperMobile : XDGRefundResultWrapper
     {
         private XDGError _xdgError;
         private List<XDGRefundDetails> _refundList;
 
-        public XDGRefundResultWrapper(string jsonStr)
+        public XDGRefundResultWrapperMobile(string jsonStr)
         {
             var dic = Json.Deserialize(jsonStr) as Dictionary<string, object>;
             var code = SafeDictionary.GetValue<int>(dic, "code");
@@ -336,7 +336,7 @@ namespace XD.SDK.Payment
             if (code != Result.RESULT_SUCCESS)
             {
                 XDGTool.LogError($"CheckRefundResult 失败 :{jsonStr}");
-                _xdgError = new XDGError(code, msg);
+                _xdgError = new XDGErrorMobile(code, msg);
             }
             else
             {
@@ -350,39 +350,55 @@ namespace XD.SDK.Payment
                 {
                     var obj = list[index];
                     var beanDic = obj as Dictionary<string, object>;
-                    _refundList.Add(new XDGRefundDetails(beanDic));
+                    _refundList.Add(new XDGRefundDetailsMobile(beanDic));
                 }
             }
         }
 
-        public IXDGError xdgError => _xdgError as IXDGError;
-        public List<IXDGRefundDetails> refundList => _refundList.ConvertAll<IXDGRefundDetails>(a => a as IXDGRefundDetails);
+        public XDGError xdgError => _xdgError as XDGError;
+        public List<XDGRefundDetails> refundList => _refundList.ConvertAll<XDGRefundDetails>(a => a as XDGRefundDetails);
     }
 
     [Serializable]
-    public class XDGRefundDetails
+    public class XDGRefundDetailsMobile : XDGRefundDetails
     {
-        public string tradeNo;
-        public string productId;
-        public string currency;
-        public string outTradeNo;
-        public double refundAmount;
-        public int supplyStatus;
-        public int platform;
-        public int channelType;
+        private string _tradeNo;
+        private string _productId;
+        private string _currency;
+        private string _outTradeNo;
+        private double _refundAmount;
+        private int _supplyStatus;
+        private int _platform;
+        private int _channelType;
 
-        public XDGRefundDetails(Dictionary<string, object> dic)
+        public XDGRefundDetailsMobile(Dictionary<string, object> dic)
         {
             if (dic == null) return;
-            tradeNo = SafeDictionary.GetValue<string>(dic, "tradeNo");
-            productId = SafeDictionary.GetValue<string>(dic, "productId");
-            currency = SafeDictionary.GetValue<string>(dic, "currency");
-            outTradeNo = SafeDictionary.GetValue<string>(dic, "outTradeNo");
-            refundAmount = SafeDictionary.GetValue<double>(dic, "refundAmount");
-            supplyStatus = SafeDictionary.GetValue<int>(dic, "supplyStatus");
-            platform = SafeDictionary.GetValue<int>(dic, "platform");
-            channelType = SafeDictionary.GetValue<int>(dic, "channelType");
+            _tradeNo = SafeDictionary.GetValue<string>(dic, "tradeNo");
+            _productId = SafeDictionary.GetValue<string>(dic, "productId");
+            _currency = SafeDictionary.GetValue<string>(dic, "currency");
+            _outTradeNo = SafeDictionary.GetValue<string>(dic, "outTradeNo");
+            _refundAmount = SafeDictionary.GetValue<double>(dic, "refundAmount");
+            _supplyStatus = SafeDictionary.GetValue<int>(dic, "supplyStatus");
+            _platform = SafeDictionary.GetValue<int>(dic, "platform");
+            _channelType = SafeDictionary.GetValue<int>(dic, "channelType");
         }
+
+        public string tradeNo => _tradeNo;
+
+        public string productId => _productId;
+
+        public string currency => _currency;
+
+        public string outTradeNo => _outTradeNo;
+
+        public double refundAmount => _refundAmount;
+
+        public int supplyStatus => _supplyStatus;
+
+        public int platform => _platform;
+
+        public int channelType => _channelType;
     }
 
     public class XDGInlinePayResult
@@ -417,7 +433,7 @@ namespace XD.SDK.Payment
             var errorDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "error");
             if (errorDic != null)
             {
-                xdgError = new XDGError(errorDic);
+                xdgError = new XDGErrorMobile(errorDic);
             }
 
             var list = SafeDictionary.GetValue<List<object>>(dic, "products");

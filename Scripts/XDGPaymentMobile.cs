@@ -73,12 +73,12 @@ namespace XD.SDK.Payment{
             RestorePurchase(purchaseToken, orderId, productId, roleId, serverId, ext, callback);
         }
 
-        void IXDGPayment.CheckRefundStatus(Action<IXDGRefundResultWrapper> callback)
+        void IXDGPayment.CheckRefundStatus(Action<XDGRefundResultWrapper> callback)
         {
             CheckRefundStatus(callback);
         }
 
-        void IXDGPayment.CheckRefundStatusWithUI(Action<IXDGRefundResultWrapper> callback)
+        void IXDGPayment.CheckRefundStatusWithUI(Action<XDGRefundResultWrapper> callback)
         {
             CheckRefundStatusWithUI(callback);
         }

@@ -25,8 +25,8 @@ namespace XD.SDK.Payment.Internal
         void RestorePurchase(string purchaseToken, string orderId, string productId, string roleId,
             string serverId, string ext, Action<XDGOrderInfoWrapper> callback);
 
-        void CheckRefundStatus(Action<IXDGRefundResultWrapper> callback);
+        void CheckRefundStatus(Action<XDGRefundResultWrapper> callback);
 
-        void CheckRefundStatusWithUI(Action<IXDGRefundResultWrapper> callback);
+        void CheckRefundStatusWithUI(Action<XDGRefundResultWrapper> callback);
     }
 }

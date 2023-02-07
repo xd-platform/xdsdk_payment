@@ -4,7 +4,7 @@ using TapTap.Common;
 
 namespace XD.SDK.Payment.Internal
 {
-    public interface IXDGRefundDetails
+    public interface XDGRefundDetails
     {
         string tradeNo { get; }
         string productId { get; }

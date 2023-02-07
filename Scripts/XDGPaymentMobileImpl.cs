@@ -183,7 +183,7 @@ namespace XD.SDK.Payment{
             });
         }
 
-        public void CheckRefundStatus(Action<XDGRefundResultWrapper> callback){
+        public void CheckRefundStatus(Action<XDGRefundResultWrapperMobile> callback){
             var command = new Command.Builder()
                 .Service(XDG_PAYMENT_SERVICE)
                 .Method("checkRefundStatus")
@@ -192,11 +192,11 @@ namespace XD.SDK.Payment{
 
             EngineBridge.GetInstance().CallHandler(command, (result) => {
                 XDGTool.Log("CheckRefundStatus result: " + result.ToJSON());
-                callback(new XDGRefundResultWrapper(result.content));
+                callback(new XDGRefundResultWrapperMobile(result.content));
             });
         }
 
-        public void CheckRefundStatusWithUI(Action<XDGRefundResultWrapper> callback){
+        public void CheckRefundStatusWithUI(Action<XDGRefundResultWrapperMobile> callback){
             var command = new Command.Builder()
                 .Service(XDG_PAYMENT_SERVICE)
                 .Method("checkRefundStatusWithUI")
@@ -206,7 +206,7 @@ namespace XD.SDK.Payment{
             EngineBridge.GetInstance().CallHandler(command,
                 result => {
                     XDGTool.Log("CheckRefundStatusWithUI result: " + result.ToJSON());
-                    callback(new XDGRefundResultWrapper(result.content));
+                    callback(new XDGRefundResultWrapperMobile(result.content));
                 });
         }
     }
