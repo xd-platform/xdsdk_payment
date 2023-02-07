@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using XD.SDK.Common.Internal;
+using XD.SDK.Common;
 
-namespace XD.SDK.Payment.Internal
+namespace XD.SDK.Payment
 {
     public interface XDGRefundResultWrapper
     {

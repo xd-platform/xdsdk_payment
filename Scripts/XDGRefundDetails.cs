@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TapTap.Common;
 
-namespace XD.SDK.Payment.Internal
+namespace XD.SDK.Payment
 {
     public interface XDGRefundDetails
     {
